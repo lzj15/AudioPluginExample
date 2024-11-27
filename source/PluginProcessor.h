@@ -4,14 +4,12 @@
 #include <juce_dsp/juce_dsp.h>
 
 //==============================================================================
-class AudioPluginAudioProcessor final : public juce::AudioProcessor
+class PluginAudioProcessor final : public juce::AudioProcessor
 {
 public:
-    juce::AudioProcessorValueTreeState myValueTreeState; //成员：AudioProcessorValueTreeState类对象myValueTreeState
-    juce::AudioParameterFloat* myCutoffptr; //成员：AudioParameterFloat类对象myCutoffptr（指针）
     //==============================================================================
-    AudioPluginAudioProcessor();
-    ~AudioPluginAudioProcessor() override;
+    PluginAudioProcessor();
+    ~PluginAudioProcessor() override;
 
     //==============================================================================
     void prepareToPlay (double sampleRate, int samplesPerBlock) override;
@@ -46,8 +44,11 @@ public:
     void setStateInformation (const void* data, int sizeInBytes) override;
 
 private:
+    juce::AudioProcessorValueTreeState apvts; //声明APVTS
+    juce::AudioProcessorValueTreeState::ParameterLayout createParameters(); // 声明reateParameters函数用于创建和返回ParameterLayout
+    juce::AudioParameterFloat* myParameterptr; //成员：AudioParameterFloat类对象指针
     juce::dsp::Gain<float> myEffect; //成员对象
     juce::dsp::ProcessSpec mySpec; //成员：ProcessSpec类对象mySpec
     //==============================================================================
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (AudioPluginAudioProcessor)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PluginAudioProcessor)
 };
